@@ -46,6 +46,8 @@ public class Usuario {
 	@Column(name = "contraseña", length = 45, nullable = false)
 	private String contrasenia;
 	
+	//Esta anotacion se utiliza para evitar que creando el Json, los usuarios no generen un loop
+	//a la hora de serializar
 	@JsonBackReference(value="citas")
 	@OneToMany(mappedBy="usuario",cascade = {CascadeType.ALL})
 	private List<Cita> citas;
