@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,6 @@ import com.dawes.service.AnimalService;
 
 
 @RestController
-//@RequestMapping("/animales")
 @CrossOrigin(origins="*")
 public class AnimalController {
 
@@ -30,9 +30,6 @@ public class AnimalController {
 
 	// método para listar todas los animales
 	@GetMapping("/animales")
-//	private ResponseEntity<List<Animal>> getAllAnimales() {
-//		return ResponseEntity.ok(animalService.findAll());
-//	}
 	public List<Animal> listarAnimales() {
 		return animalService.findAll();
 	}
