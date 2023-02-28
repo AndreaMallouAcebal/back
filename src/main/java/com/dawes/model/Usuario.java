@@ -4,22 +4,17 @@ import java.util.List;
 import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 
@@ -43,7 +38,7 @@ public class Usuario {
 	@Column(name = "dni", length = 9, nullable = false)
 	private String dni;
 
-	@Column(name = "contraseña", length = 45, nullable = false)
+	@Column(name = "contraseña", nullable = false)
 	private String contrasenia;
 	
 	//Esta anotacion se utiliza para evitar que creando el Json, los usuarios no generen un loop
@@ -155,37 +150,14 @@ public class Usuario {
 	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
-//
-//
 
-	public Usuario(String nombre, String apellidos, String email, String dni, String contrasenia,List<Cita> citas, Rol rol, List<ActividadUsuario> actividades) {
-		super();
+	public Usuario(String nombre, String apellidos, String email, String dni, String contrasenia) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
 		this.email = email;
 		this.dni = dni;
 		this.contrasenia = contrasenia;
-		this.citas = citas;
-		this.rol=rol;
-//		this.voluntario=voluntario;
-		this.actividades=actividades;
-
 	}
-
-	public Usuario(int id, String nombre, String apellidos, String email, String dni, String contrasenia,
-		List<Cita> citas, Rol rol, List<ActividadUsuario> actividades) {
-	super();
-	this.id = id;
-	this.nombre = nombre;
-	this.apellidos = apellidos;
-	this.email = email;
-	this.dni = dni;
-	this.contrasenia = contrasenia;
-	this.citas = citas;
-	this.rol=rol;
-//	this.voluntario=voluntario;
-//	this.actividades=actividades;
-}
 
 	public Usuario() {
 		super();

@@ -3,16 +3,10 @@ package com.dawes.model;
 import java.util.List;
 import java.util.Objects;
 
+import com.dawes.security.enums.RolNombre;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name="roles")
@@ -29,7 +23,11 @@ public class Rol {
 	@OneToMany(mappedBy="rol", cascade = {CascadeType.ALL})
 	private List<Usuario> usuarios;
 
-	public int getId() {
+    public Rol(RolNombre nombre) {
+		this.nombre=nombre.toString();
+    }
+
+    public int getId() {
 		return id;
 	}
 
