@@ -53,7 +53,7 @@ public class JwtProvider {
             logger.error("Empty token");
         }catch (MalformedJwtException e){
             logger.error("Malformed token");
-        }catch (UnsupportedJwtException e) {
+        }catch (UnsupportedJwtException e){
             logger.error("Unsupported token");
         }
         return false;

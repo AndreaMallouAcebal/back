@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,7 @@ public class RolController {
 	private RolService rolService;
 
 	// método para listar todas las actividades
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/roles")
 	public List<Rol> listarRoles() {
 		return rolService.findAll();
@@ -31,19 +33,20 @@ public class RolController {
 
 	// método para guardar una actividad
 	// @requestBody es para enviar el objeto en formato Json
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PostMapping("/roles")
 	public Rol guardarRoles(@RequestBody Rol rol) {
 		return rolService.save(rol);
 	}
 
-	
-	// método para listar todas los animales
+
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/roles/{id}")
 	public Optional<Rol> recuperarRol(@PathVariable Integer id) {
 		return rolService.findById(id);
 	}
 
-	//modificar
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping("/roles/{id}")
 	public ResponseEntity<Rol>  modificarRol(@RequestBody Rol detallesRol, @PathVariable Integer id ) {
 		 
@@ -57,8 +60,9 @@ public class RolController {
 		return ResponseEntity.ok(rolActualizado);
 		
 	}
-	
 
+
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@DeleteMapping("/roles/{id}")
 	// retorna verdadero si el elemento fue eliminado, si no lo encuentra
 	public void eliminarRol(@PathVariable Integer id) {

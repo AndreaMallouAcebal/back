@@ -36,19 +36,19 @@ public class AnimalController {
 
 	// método para guardar un animal
 	// @requestBody es para enviar el objeto en formato Json
+	@PreAuthorize("hasRole('ADMIN')")
 	@PostMapping("/animales")
 	public Animal guardarAnimal(@RequestBody Animal animal) {
 		return animalService.save(animal);
 	}
 
-	
-	// método para listar todas los animales
 	@GetMapping("/animales/{id}")
 	public Optional<Animal> recuperarAnimal(@PathVariable Integer id) {
 		return animalService.findById(id);
 	}
 
 	//modificar
+	@PreAuthorize("hasRole('ADMIN')")
 	@PutMapping("/animales/{id}")
 	public ResponseEntity<Animal>  modificarAnimal(@RequestBody Animal detallesAnimal, @PathVariable Integer id ) {
 		 
@@ -66,8 +66,9 @@ public class AnimalController {
 		
 		return ResponseEntity.ok(animalActualizado);
 	}
-	
 
+
+	@PreAuthorize("hasRole('ADMIN')")
 	@DeleteMapping("/animales/{id}")
 	// retorna verdadero si el elemento fue eliminado, si no lo encuentra
 	public void deleteAnimal(@PathVariable Integer id) {

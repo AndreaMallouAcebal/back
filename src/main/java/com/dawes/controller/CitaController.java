@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,6 +52,7 @@ public class CitaController {
 	}
 
 	//modificar
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping("/citas/{id}")
 	public ResponseEntity<Cita>  modificarRol(@RequestBody Cita detallesCita, @PathVariable Integer id ) {
 		 
@@ -66,6 +68,7 @@ public class CitaController {
 		
 	}
 
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@DeleteMapping("/citas/{id}")
 	// retorna verdadero si el elemento fue eliminado, si no lo encuentra
 	public void eliminarCita(@PathVariable Integer id) {
