@@ -16,8 +16,12 @@ public class JwtEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        logger.error("Commence fail");
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED,"no autorizado");
+        logger.error("fail en el método commence: " + authException.getMessage());
+        response.resetBuffer();
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setHeader("Content-Type", "application/json");
+        response.getOutputStream().print("{\"status\":401,\"error\":\"Unauthorized\",\"message\":\"Email o password incorrectos\"}");
+        response.flushBuffer();
     }
     private final static Logger logger = LoggerFactory.getLogger(JwtEntryPoint.class);
 
