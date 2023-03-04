@@ -41,27 +41,17 @@ public class Usuario {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="idroles")
 	private Rol rol;
-//	
+	
 //	@JsonBackReference(value="voluntario")
 //	@OneToOne
 //	@JoinColumn(name = "voluntario_id", referencedColumnName = "id")	
 //	private Voluntario voluntario;
 //	
-//	
-//	
+	
 	@JsonManagedReference(value="actividades")
 	@OneToMany(mappedBy="usuario",cascade = {CascadeType.ALL})
 	private List<ActividadUsuario> actividades;
 
-	
-//	public List<ActividadUsuario> getActividades() {
-//		return actividades;
-//	}
-//
-//	public void setActividades(List<ActividadUsuario> actividades) {
-//		this.actividades = actividades;
-//	}
-//
 //	public Voluntario getVoluntario() {
 //		return voluntario;
 //	}
@@ -142,6 +132,17 @@ public class Usuario {
 		this.rol = rol;
 	}
 
+	public Usuario(int id,String nombre, String apellidos, String email, String dni, String contrasenia, List<Cita> citas, Rol rol) {
+		this.id=id;
+		this.nombre = nombre;
+		this.apellidos = apellidos;
+		this.email = email;
+		this.dni = dni;
+		this.contrasenia = contrasenia;
+		this.citas=citas;
+		this.rol=rol;
+	}
+	
 	public Usuario(String nombre, String apellidos, String email, String dni, String contrasenia) {
 		this.nombre = nombre;
 		this.apellidos = apellidos;
