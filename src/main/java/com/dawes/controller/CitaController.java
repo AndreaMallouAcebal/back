@@ -3,10 +3,11 @@ package com.dawes.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.dawes.model.Usuario;
+import com.dawes.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dawes.model.Cita;
@@ -27,6 +26,8 @@ public class CitaController {
 	
 	@Autowired
 	private CitaService citaService;
+	@Autowired
+	private UsuarioService usuarioService;
 
 
 	// método para listar todas las actividades
@@ -40,6 +41,13 @@ public class CitaController {
 	// @requestBody es para enviar el objeto en formato Json
 	@PostMapping("/citas")
 	public Cita guardarCitas(@RequestBody Cita cita) {
+		return citaService.save(cita);
+	}
+
+	@PostMapping("/citas/{email}")
+	public Cita guardarCitaSinUsuario(@RequestBody Cita cita, @PathVariable String email) {
+		Usuario usuario = usuarioService.findByEmail(email).get();
+		cita.setUsuario(usuario);
 		return citaService.save(cita);
 	}
 	
