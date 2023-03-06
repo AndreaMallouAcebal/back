@@ -3,16 +3,13 @@ package com.dawes.controller;
 import java.util.List;
 import java.util.Optional;
 
+import com.dawes.model.Actividad;
+import com.dawes.model.Usuario;
+import com.dawes.service.ActividadService;
+import com.dawes.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.dawes.model.ActividadUsuario;
 import com.dawes.service.ActividadUsuarioService;
@@ -25,6 +22,12 @@ public class ActividadUsuarioController {
 
 	@Autowired
 	private ActividadUsuarioService actividadusuarioService;
+
+	@Autowired
+	private UsuarioService usuarioService;
+
+	@Autowired
+	private ActividadService actividadService;
 	
 
 	// método para listar todas los animales
@@ -39,7 +42,10 @@ public class ActividadUsuarioController {
 	// método para guardar un animal
 	// @requestBody es para enviar el objeto en formato Json
 	@PostMapping("/actividadesusuarios")
-	public ActividadUsuario guardarActividadUsuario(@RequestBody ActividadUsuario actividadusuario) {
+	public ActividadUsuario guardarActividadUsuario(@RequestParam("idActividad") int idActividad, @RequestParam("userEmail") String userEmail) {
+		ActividadUsuario actividadusuario = new ActividadUsuario();
+		actividadusuario.setActividad(actividadService.findById(idActividad).get());
+		actividadusuario.setUsuario(usuarioService.findByEmail(userEmail).get());
 		return actividadusuarioService.save(actividadusuario);
 	}
 
