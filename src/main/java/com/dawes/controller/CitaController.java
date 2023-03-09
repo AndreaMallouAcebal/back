@@ -8,14 +8,7 @@ import com.dawes.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.dawes.model.Cita;
 import com.dawes.service.CitaService;
@@ -34,6 +27,12 @@ public class CitaController {
 	@GetMapping("/citas")
 	public List<Cita> listarCitas() {
 		List<Cita>citas=citaService.findAll();
+		return citas;
+	}
+	@PostMapping("/mis-citas")
+	public List<Cita> listarMisCitas(@RequestParam("userEmail") String userEmail) {
+		Usuario u = usuarioService.findByEmail(userEmail).get();
+		List<Cita>citas=citaService.findByUsuario(u);
 		return citas;
 	}
 

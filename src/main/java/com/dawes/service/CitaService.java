@@ -3,6 +3,7 @@ package com.dawes.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.dawes.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,11 @@ public class CitaService implements CitaRepository{
 	@Override
 	public List<Cita> findAll() {
 		return (List<Cita>) citaRepository.findAll();
+	}
+
+	@Override
+	public List<Cita> findByUsuario(Usuario usuario) {
+		return (List<Cita>) citaRepository.findByUsuario(usuario);
 	}
 	
 	@Override

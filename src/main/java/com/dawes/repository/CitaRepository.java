@@ -1,9 +1,12 @@
 package com.dawes.repository;
 
+import com.dawes.model.Usuario;
 import org.springframework.data.repository.CrudRepository;
 
 import com.dawes.model.Cita;
 
-public interface CitaRepository extends CrudRepository<Cita, Integer> {
+import java.util.List;
 
+public interface CitaRepository extends CrudRepository<Cita, Integer> {
+    List<Cita> findByUsuario(Usuario usuario);
 }
