@@ -48,6 +48,7 @@ public class UsuarioController {
 	public Optional<Usuario> recuperarUsuario(@PathVariable Integer id) {
 		return usuarioService.findById(id);
 	}
+	
 
 	@PreAuthorize("hasAuthority('ADMIN')")
 	@PutMapping("/usuarios/{id}")

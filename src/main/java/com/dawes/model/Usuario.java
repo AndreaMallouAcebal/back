@@ -48,7 +48,7 @@ public class Usuario {
 //	private Voluntario voluntario;
 //	
 	
-	@JsonManagedReference(value="actividades")
+	@JsonBackReference(value="actividades")
 	@OneToMany(mappedBy="usuario",cascade = {CascadeType.ALL})
 	private List<ActividadUsuario> actividades;
 
