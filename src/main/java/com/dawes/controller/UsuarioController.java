@@ -73,6 +73,15 @@ public class UsuarioController {
 		
 	}
 
+	@PreUpdate
+	@PutMapping("/voluntarios/{id}")
+	public ResponseEntity<Usuario>  modificarUsuarioVoluntario(@RequestBody Usuario detallesUsuario, @PathVariable Integer id ) {
+		Optional<Usuario> usuario= usuarioService.findById(id);
+		usuario.get().setVoluntario(detallesUsuario.isVoluntario());
+        Usuario usuarioActualizado= usuarioService.save(usuario.get());
+        return ResponseEntity.ok(usuarioActualizado);
+	}
+
 	@PreRemove
 	@DeleteMapping("/usuarios/{id}")
 	// retorna verdadero si el elemento fue eliminado, si no lo encuentra

@@ -19,7 +19,9 @@ public class ActividadService implements ActividadRepository{
 			public List<Actividad> findAll() {
 				return (List<Actividad>) actividadRepository.findAll();
 			}
-			
+
+			@Override
+            public List<Actividad> findAllByOrderByFechaDesc() { return (List<Actividad>) actividadRepository.findAllByOrderByFechaDesc(); }
 			@Override
 			public <S extends Actividad> S save(S entity) {
 				return actividadRepository.save(entity);

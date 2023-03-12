@@ -168,6 +168,14 @@ public class Usuario {
 		return Objects.hash(apellidos, citas, contrasenia, dni, email, id, nombre,rol, actividades);
 	}
 
+	public boolean isVoluntario() {
+		return voluntario;
+	}
+
+	public void setVoluntario(boolean voluntario) {
+		this.voluntario = voluntario;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

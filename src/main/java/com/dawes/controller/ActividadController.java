@@ -32,7 +32,7 @@ public class ActividadController {
 //		return ResponseEntity.ok(animalService.findAll());
 //	}
 	public List<Actividad> listarActividades() {
-		return actividadService.findAll();
+		return actividadService.findAllByOrderByFechaDesc();
 	}
 
 	// método para guardar un animal
