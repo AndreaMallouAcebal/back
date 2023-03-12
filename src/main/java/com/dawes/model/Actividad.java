@@ -7,6 +7,7 @@ import java.util.Objects;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
@@ -21,9 +22,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, 
-	property  = "id", 
-	scope = Integer.class)
+
 @Entity
 @Table(name="actividades")
 public class Actividad {
@@ -41,7 +40,7 @@ public class Actividad {
 	@Column(name="descripcion", length= 400, unique=true, nullable=false)
 	private String descripcion;
 
-	@JsonManagedReference(value="usuarios")
+	@JsonBackReference("usuarios")
 	@OneToMany(mappedBy="actividad",cascade = {CascadeType.ALL})
 	private List<ActividadUsuario> usuarios;
 

@@ -38,6 +38,11 @@ public class ActividadUsuarioController {
 	public List<ActividadUsuario> listarActividadesUsuarios() {
 		return actividadusuarioService.findAll();
 	}
+	
+	@GetMapping("/ver-usuarios/{id}")
+	public List<ActividadUsuario> listarActividadesUsuariosByActividad(@PathVariable Integer id) {
+		return actividadusuarioService.findByActividad(actividadService.findById(id).get());
+	}
 
 	// método para guardar un animal
 	// @requestBody es para enviar el objeto en formato Json

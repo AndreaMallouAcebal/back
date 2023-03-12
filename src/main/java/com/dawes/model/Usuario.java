@@ -39,7 +39,7 @@ public class Usuario {
 
 	@Column(name = "voluntario", nullable = false)
 	private boolean voluntario;
-	
+
 	//Esta anotacion se utiliza para evitar que creando el Json, los usuarios no generen un loop
 	//a la hora de serializar
 	@JsonBackReference(value="citas")
@@ -49,11 +49,24 @@ public class Usuario {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="idroles")
 	private Rol rol;
-
+	
+//	@JsonBackReference(value="voluntario")
+//	@OneToOne
+//	@JoinColumn(name = "voluntario_id", referencedColumnName = "id")	
+//	private Voluntario voluntario;
+//	
+	
 	@JsonManagedReference(value="actividades")
 	@OneToMany(mappedBy="usuario",cascade = {CascadeType.ALL})
 	private List<ActividadUsuario> actividades;
 
+//	public Voluntario getVoluntario() {
+//		return voluntario;
+//	}
+//
+//	public void setVoluntario(Voluntario voluntario) {
+//		this.voluntario = voluntario;
+//	}
 
 	public List<Cita> getCitas() {
 		return citas;

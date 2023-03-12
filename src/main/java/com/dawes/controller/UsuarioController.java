@@ -49,6 +49,7 @@ public class UsuarioController {
 	public Optional<Usuario> recuperarUsuario(@PathVariable Integer id) {
 		return usuarioService.findById(id);
 	}
+	
 
 	@PreUpdate
 	@PutMapping("/usuarios/{id}")

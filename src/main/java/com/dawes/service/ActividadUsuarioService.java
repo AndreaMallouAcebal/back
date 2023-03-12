@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dawes.model.Actividad;
 import com.dawes.model.ActividadUsuario;
 import com.dawes.repository.ActividadUsuarioRepository;
 @Service
@@ -24,6 +25,11 @@ public class ActividadUsuarioService implements ActividadUsuarioRepository{
 			@Override
 			public <S extends ActividadUsuario> S save(S entity) {
 				return acRepository.save(entity);
+			}
+			
+			@Override
+			public List<ActividadUsuario> findByActividad(Actividad a) {
+				return acRepository.findByActividad(a);
 			}
 			
 			@Override
@@ -92,5 +98,7 @@ public class ActividadUsuarioService implements ActividadUsuarioRepository{
 		// TODO Auto-generated method stub
 		
 	}
+
+
 
 }

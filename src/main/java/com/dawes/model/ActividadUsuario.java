@@ -18,6 +18,9 @@ import jakarta.persistence.Table;
 //@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, 
 //property  = "id", 
 //scope = Integer.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, 
+property  = "id", 
+scope = Integer.class)
 @Entity
 @Table(name="actividades_usuarios")
 public class ActividadUsuario {
@@ -27,12 +30,10 @@ public class ActividadUsuario {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 	
-	@JsonBackReference(value="usuarios")
 	@ManyToOne
 	@JoinColumn(name="idactividades")
 	private Actividad actividad;
 
-	@JsonBackReference(value="actividades")
 	@ManyToOne
 	@JoinColumn(name="idusuarios")
 	private Usuario usuario;
