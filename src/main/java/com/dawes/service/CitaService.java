@@ -3,6 +3,7 @@ package com.dawes.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.dawes.model.Animal;
 import com.dawes.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,12 @@ public class CitaService implements CitaRepository{
 	public List<Cita> findByUsuario(Usuario usuario) {
 		return (List<Cita>) citaRepository.findByUsuario(usuario);
 	}
-	
+
+	@Override
+	public boolean existsByUsuarioAndAnimal(Usuario usuario, Animal animal) {
+		return citaRepository.existsByUsuarioAndAnimal(usuario,animal);
+	}
+
 	@Override
 	public <S extends Cita> S save(S entity) {
 		return citaRepository.save(entity);

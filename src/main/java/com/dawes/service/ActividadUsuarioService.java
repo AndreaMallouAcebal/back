@@ -3,6 +3,7 @@ package com.dawes.service;
 import java.util.List;
 import java.util.Optional;
 
+import com.dawes.model.Usuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +32,19 @@ public class ActividadUsuarioService implements ActividadUsuarioRepository{
 			public List<ActividadUsuario> findByActividad(Actividad a) {
 				return acRepository.findByActividad(a);
 			}
-			
+
 			@Override
+			public ActividadUsuario findByActividadAndUsuario(Actividad a, Usuario u) {
+				return acRepository.findByActividadAndUsuario(a,u);
+			}
+			@Override
+			public boolean existsByActividadAndUsuario(Actividad a, Usuario u) {
+				return acRepository.existsByActividadAndUsuario(a,u);
+			}
+
+
+
+	@Override
 			public Optional<ActividadUsuario> findById(Integer id) {
 				// TODO Auto-generated method stub
 				return acRepository.findById(id);
@@ -41,7 +53,6 @@ public class ActividadUsuarioService implements ActividadUsuarioRepository{
 			@Override
 			public void deleteById(Integer id) {
 				acRepository.deleteById(id);
-				
 			}
 	
 

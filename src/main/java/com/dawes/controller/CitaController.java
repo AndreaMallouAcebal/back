@@ -13,6 +13,7 @@ import jakarta.persistence.PreRemove;
 import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,7 +52,10 @@ public class CitaController {
 	@PostMapping("/citas/{email}")
 	public Cita guardarCitaSinUsuario(@RequestBody Cita cita, @PathVariable String email) {
 		Usuario usuario = usuarioService.findByEmail(email).get();
-		cita.setUsuario(usuario);
+		if(citaService.existsByUsuarioAndAnimal(usuario, cita.getAnimal())) {
+			throw new AuthorizationServiceException("La cita ya existe");
+		}
+		cita.setUsuario(usuarioService.findByEmail(email).get());
 		return citaService.save(cita);
 	}
 	

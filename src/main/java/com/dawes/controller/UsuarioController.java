@@ -8,6 +8,7 @@ import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.dawes.model.Usuario;
@@ -20,6 +21,9 @@ public class UsuarioController {
 
 	@Autowired
 	private UsuarioService usuarioService;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 
 	// método para listar todos los usuarios
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -60,7 +64,7 @@ public class UsuarioController {
 		usuario.get().setApellidos(detallesUsuario.getApellidos());
 		usuario.get().setEmail(detallesUsuario.getEmail());
 		usuario.get().setDni(detallesUsuario.getDni());
-		usuario.get().setContrasenia(detallesUsuario.getContrasenia());
+		usuario.get().setContrasenia(passwordEncoder.encode(detallesUsuario.getContrasenia()));
 		usuario.get().setRol(detallesUsuario.getRol());
 		
 		Usuario usuarioActualizado= usuarioService.save(usuario.get());
