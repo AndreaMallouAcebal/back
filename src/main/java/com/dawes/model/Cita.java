@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.*;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, 
 					property  = "id", 
@@ -104,6 +106,26 @@ public class Cita {
 		return Objects.equals(animal, other.animal) && Objects.equals(fecha, other.fecha)&& Objects.equals(usuario, other.usuario) && id == other.id;
 	}
 
-	
-	
+	@PreRemove
+	private void preventUnAuthorizedRemove() {
+		// Recuperamos el email del usuario logueado
+		String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+		String auth = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+		// Comprobamos si el usuario logueado no es el que se quiere borrar
+		if(!userEmail.equals(this.usuario.getEmail()) && !"[ADMIN]".equals(auth)){
+			throw new AuthorizationServiceException("User can only delete his own citas");
+		}
+	}
+
+	@PreUpdate
+    private void preventUnAuthorizedUpdate() {
+		// Recuperamos el email del usuario logueado
+		String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        String auth = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        // Comprobamos si el usuario logueado no es el que se quiere borrar
+        if(!userEmail.equals(this.usuario.getEmail()) &&!"[ADMIN]".equals(auth)){
+            throw new AuthorizationServiceException("User can only update his own citas");
+        }
+	}
+
 }

@@ -3,17 +3,12 @@ package com.dawes.controller;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.persistence.PreRemove;
+import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.dawes.model.Usuario;
 import com.dawes.service.UsuarioService;
@@ -33,6 +28,12 @@ public class UsuarioController {
 		return usuarioService.findAll();
 	}
 
+	@PreAuthorize("hasAuthority('USER')")
+	@PostMapping("/mi-perfil")
+    public Usuario recuperarUsuarioByEmail(@RequestParam("userEmail") String email) {
+        return usuarioService.findByEmail(email).get();
+    }
+
 	// método para guardar una actividad
 	// @requestBody es para enviar el objeto en formato Json
 	@PreAuthorize("hasAuthority('ADMIN')")
@@ -49,7 +50,7 @@ public class UsuarioController {
 		return usuarioService.findById(id);
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreUpdate
 	@PutMapping("/usuarios/{id}")
 	public ResponseEntity<Usuario>  modificarUsuario(@RequestBody Usuario detallesUsuario, @PathVariable Integer id ) {
 		 
@@ -68,7 +69,7 @@ public class UsuarioController {
 		
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreRemove
 	@DeleteMapping("/usuarios/{id}")
 	// retorna verdadero si el elemento fue eliminado, si no lo encuentra
 	public void eliminarUsuario(@PathVariable Integer id) {

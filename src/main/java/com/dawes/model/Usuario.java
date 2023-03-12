@@ -1,5 +1,6 @@
 package com.dawes.model;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -7,6 +8,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
+import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 
 @Entity
@@ -31,6 +35,10 @@ public class Usuario {
 
 	@Column(name = "contraseña", nullable = false)
 	private String contrasenia;
+
+
+	@Column(name = "voluntario", nullable = false)
+	private boolean voluntario;
 	
 	//Esta anotacion se utiliza para evitar que creando el Json, los usuarios no generen un loop
 	//a la hora de serializar
@@ -41,24 +49,11 @@ public class Usuario {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="idroles")
 	private Rol rol;
-	
-//	@JsonBackReference(value="voluntario")
-//	@OneToOne
-//	@JoinColumn(name = "voluntario_id", referencedColumnName = "id")	
-//	private Voluntario voluntario;
-//	
-	
+
 	@JsonManagedReference(value="actividades")
 	@OneToMany(mappedBy="usuario",cascade = {CascadeType.ALL})
 	private List<ActividadUsuario> actividades;
 
-//	public Voluntario getVoluntario() {
-//		return voluntario;
-//	}
-//
-//	public void setVoluntario(Voluntario voluntario) {
-//		this.voluntario = voluntario;
-//	}
 
 	public List<Cita> getCitas() {
 		return citas;
@@ -181,6 +176,30 @@ public class Usuario {
 				+ dni + ", contrasenia=" + contrasenia + ", citas=" + citas + ", rol=" + rol +", actividades=" + actividades +"]";
 	}
 
-	
+
+	//Anotacion creada para que solo un usuario pueda borrar su propio usuario
+	//Recupera el usuario actual logueado para hacer la comparacion con el que se quiere borrar
+	@PreRemove
+	private void preventUnAuthorizedRemove() {
+		// Recuperamos el email del usuario logueado
+		String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+		String auth = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+		// Comprobamos si el usuario logueado no es el que se quiere borrar
+		if(!userEmail.equals(this.email) && !"[ADMIN]".equals(auth)){
+			throw new AuthorizationServiceException("User can only delete himself ");
+		}
+	}
+
+	@PreUpdate
+	private void preventUnAuthorizedUpdate() {
+		// Recuperamos el email del usuario logueado
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+		String auth = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+        // Comprobamos si el usuario logueado no es el que se quiere borrar
+        if(!userEmail.equals(this.email) && !"ADMIN".equals(auth)){
+            throw new AuthorizationServiceException("User can only update himself ");
+        }
+	}
+
 
 }

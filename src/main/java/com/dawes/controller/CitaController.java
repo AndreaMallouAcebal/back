@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import com.dawes.model.Usuario;
 import com.dawes.service.UsuarioService;
+import jakarta.persistence.PreRemove;
+import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,16 +26,15 @@ public class CitaController {
 
 
 	// método para listar todas las actividades
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/citas")
 	public List<Cita> listarCitas() {
-		List<Cita>citas=citaService.findAll();
-		return citas;
+		return citaService.findAll();
 	}
 	@PostMapping("/mis-citas")
 	public List<Cita> listarMisCitas(@RequestParam("userEmail") String userEmail) {
 		Usuario u = usuarioService.findByEmail(userEmail).get();
-		List<Cita>citas=citaService.findByUsuario(u);
-		return citas;
+		return citaService.findByUsuario(u);
 	}
 
 	// método para guardar una actividad
@@ -54,12 +55,11 @@ public class CitaController {
 	// método para listar todas los animales
 	@GetMapping("/citas/{id}")
 	public Optional<Cita> recuperarCita(@PathVariable Integer id) {
-		Optional<Cita> c=citaService.findById(id);
-		return c;
+		return citaService.findById(id);
 	}
 
 	//modificar
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreUpdate
 	@PutMapping("/citas/{id}")
 	public ResponseEntity<Cita>  modificarRol(@RequestBody Cita detallesCita, @PathVariable Integer id ) {
 		 
@@ -75,7 +75,7 @@ public class CitaController {
 		
 	}
 
-	@PreAuthorize("hasAuthority('ADMIN')")
+	@PreRemove
 	@DeleteMapping("/citas/{id}")
 	// retorna verdadero si el elemento fue eliminado, si no lo encuentra
 	public void eliminarCita(@PathVariable Integer id) {
