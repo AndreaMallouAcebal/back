@@ -28,7 +28,6 @@ public class UsuarioController {
 		return usuarioService.findAll();
 	}
 
-	@PreAuthorize("hasAuthority('USER')")
 	@PostMapping("/mi-perfil")
     public Usuario recuperarUsuarioByEmail(@RequestParam("userEmail") String email) {
         return usuarioService.findByEmail(email).get();
