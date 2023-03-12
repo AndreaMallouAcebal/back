@@ -3,11 +3,14 @@ package com.dawes.controller;
 import java.util.List;
 import java.util.Optional;
 
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreRemove;
 import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,12 +48,20 @@ public class UsuarioController {
 		return usuarioService.save(usuario);
 	}
 
-	
+
 	// método para listar todas los animales
-	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/usuarios/{id}")
 	public Optional<Usuario> recuperarUsuario(@PathVariable Integer id) {
-		return usuarioService.findById(id);
+		Optional<Usuario> usuario = usuarioService.findById(id);
+		// Recuperamos el email del usuario logueado
+		String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+		String auth = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+		// Comprobamos si el usuario logueado no es el que se quiere actualizar
+		if(!userEmail.equals(usuario.get().getEmail()) && !"ADMIN".equals(auth)){
+			throw new AuthorizationServiceException("User can only see his data");
+		}
+		return usuario;
+
 	}
 	
 

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import org.springframework.security.access.AuthorizationServiceException;
+import org.springframework.security.access.prepost.PreFilter;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -216,11 +217,10 @@ public class Usuario {
 		// Recuperamos el email del usuario logueado
         String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
 		String auth = String.valueOf(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
-        // Comprobamos si el usuario logueado no es el que se quiere borrar
+        // Comprobamos si el usuario logueado no es el que se quiere actualizar
         if(!userEmail.equals(this.email) && !"ADMIN".equals(auth)){
             throw new AuthorizationServiceException("User can only update himself ");
         }
 	}
 
-
-}
+	}
