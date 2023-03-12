@@ -31,13 +31,13 @@ public class Actividad {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
 
-	@Column(name="nombre", length= 15, nullable=false)
+	@Column(name="nombre", length= 30, nullable=false)
 	private String nombre;
 	
 	@Column(name="fecha", nullable=false)
 	private LocalDate fecha;
 
-	@Column(name="descripcion", length= 400, unique=true, nullable=false)
+	@Column(name="descripcion", length= 600, unique=true, nullable=false)
 	private String descripcion;
 
 	@JsonBackReference("usuarios")
