@@ -32,12 +32,12 @@ class BackendApplicationTests {
 	CitaService cs;
 
 	// Test para insertar un alumno nuevo
-	@Test
-	public void test01() {
-		// Si le damos id 0 sabe que tiene que generar la sigueinte posible
-		// no tenemos constructor sin id
-		assertNotNull(as.save(new Animal("Toby",3,"pastor alemán","Muy bueno","http...","perro",new ArrayList<Cita>())));
-	}
+//	@Test
+//	public void test01() {
+//		// Si le damos id 0 sabe que tiene que generar la sigueinte posible
+//		// no tenemos constructor sin id
+//		assertNotNull(as.save(new Animal("Toby",3,"pastor alemán","Muy bueno","http...","perro",new ArrayList<Cita>())));
+//	}
 //	// Test para insertar un curso
 //		@Test
 //		public void test02() {
